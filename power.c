@@ -47,8 +47,14 @@
 #include "hint-data.h"
 #include "performance.h"
 #include "power-common.h"
+#include "power-feature.h"
 
 static struct hint_handles handles[NUM_HINTS];
+
+void __attribute__((weak)) set_device_specific_feature(struct power_module *module __unused,
+                                            feature_t feature __unused, int state __unused)
+{
+}
 
 static void set_feature(struct power_module *module, feature_t feature, int state)
 {
@@ -61,6 +67,7 @@ static void set_feature(struct power_module *module, feature_t feature, int stat
         default:
             break;
     }
+    set_device_specific_feature(module, feature, state);
 }
 
 

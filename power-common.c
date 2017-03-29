@@ -61,8 +61,8 @@ void power_init()
     }
 }
 
-int __attribute__ ((weak)) power_hint_override(power_hint_t hint,
-        void *data)
+int __attribute__ ((weak)) power_hint_override(power_hint_t UNUSED(hint),
+                                               void *UNUSED(data))
 {
     return HINT_NONE;
 }
@@ -113,7 +113,7 @@ void power_hint(power_hint_t hint, void *data)
     }
 }
 
-int __attribute__ ((weak)) set_interactive_override(int on)
+int __attribute__ ((weak)) set_interactive_override(int UNUSED(on))
 {
     return HINT_NONE;
 }

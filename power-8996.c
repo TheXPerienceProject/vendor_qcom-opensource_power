@@ -40,6 +40,7 @@
 #include <utils/Log.h>
 #include <hardware/hardware.h>
 #include <hardware/power.h>
+#include <pthread.h>
 
 #include "utils.h"
 #include "metadata-defs.h"

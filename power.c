@@ -48,7 +48,7 @@
 #include "performance.h"
 #include "power-common-old.h"
 #include "power-common.h"
-#include "power-feature.h"
+//#include "power-feature.h"
 
 static struct hint_handles handles[NUM_HINTS];
 

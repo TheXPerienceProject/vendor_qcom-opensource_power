@@ -129,7 +129,11 @@ endif
 LOCAL_MODULE := power.qcom
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
+ifneq ($(TARGET_OVERLAYS_POWERHAL), true)
 LOCAL_VENDOR_MODULE := true
+else
+LOCAL_VENDOR_OVERLAY_MODULE := true
+endif
 include $(BUILD_SHARED_LIBRARY)
 else
 LOCAL_MODULE := android.hardware.power@1.2-service
@@ -138,7 +142,12 @@ ifeq ($(TARGET_ARCH),arm)
 LOCAL_CFLAGS += -DARCH_ARM_32
 endif
 LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
+ifneq ($(TARGET_OVERLAYS_POWERHAL), true)
 LOCAL_VENDOR_MODULE := true
+else
+LOCAL_VENDOR_OVERLAY_MODULE := true
+endif
 include $(BUILD_EXECUTABLE)
 endif
 

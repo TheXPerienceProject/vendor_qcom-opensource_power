@@ -2,6 +2,9 @@ ifeq ($(TARGET_USES_NON_LEGACY_POWERHAL),true)
 #Power product definitions
 PRODUCT_PACKAGES += android.hardware.power@1.2-impl
 PRODUCT_PACKAGES += android.hardware.power@1.2-service
+else
+PRODUCT_PACKAGES += power.qcom
+endif
 
 #Powerhint File
 ifeq ($(TARGET_BOARD_PLATFORM),msmnile)
@@ -14,6 +17,4 @@ else ifeq ($(TARGET_BOARD_PLATFORM),atoll)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/atoll/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 else ifeq ($(TARGET_BOARD_PLATFORM),bengal)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/bengal/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
-endif
-
 endif

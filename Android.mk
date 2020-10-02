@@ -85,11 +85,14 @@ ifeq ($(TARGET_USES_INTERACTION_BOOST),true)
     LOCAL_CFLAGS += -DINTERACTION_BOOST
 endif
 
-ifeq ($(call is-board-platform-in-list,trinket), true)
+ifneq ($(TARGET_USES_NON_LEGACY_POWERHAL), true)
 LOCAL_MODULE := power.qcom
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
 LOCAL_VENDOR_MODULE := true
+LOCAL_REQUIRED_MODULES := \
+    android.hardware.power@1.0-impl \
+    android.hardware.power@1.0-service
 include $(BUILD_SHARED_LIBRARY)
 else
 LOCAL_MODULE := android.hardware.power-service
@@ -99,7 +102,7 @@ LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
 LOCAL_VENDOR_MODULE := true
 LOCAL_VINTF_FRAGMENTS := power.xml
 include $(BUILD_EXECUTABLE)
-endif
+endif # TARGET_USES_NON_LEGACY_POWERHAL
 
 
 endif

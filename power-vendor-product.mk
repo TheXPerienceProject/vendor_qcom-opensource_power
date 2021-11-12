@@ -1,3 +1,4 @@
+ifneq ($(BOARD_PROVIDES_POWER_HAL),true)
 #Power product definitions
 PRODUCT_PACKAGES += android.hardware.power-service
 PRODUCT_PACKAGES += android.hardware.power-impl
@@ -16,3 +17,4 @@ PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/lahaina/powerhint.xml:
 else ifeq ($(TARGET_BOARD_PLATFORM),holi)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/holi/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 endif
+endif # powerhal inside devicetree

@@ -1,3 +1,4 @@
+ifneq ($(BOARD_PROVIDES_POWER_HAL),true)
 #Power product definitions
 PRODUCT_PACKAGES += android.hardware.power-service
 PRODUCT_PACKAGES += android.hardware.power-impl
@@ -30,3 +31,4 @@ ifeq ($(TARGET_KERNEL_VERSION),4.19)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/sdm660/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 endif
 endif
+endif # powerhal inside devicetree

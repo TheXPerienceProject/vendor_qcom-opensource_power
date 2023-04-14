@@ -8,7 +8,11 @@ PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/msm8937/powerhint.xml:
 else ifeq ($(TARGET_BOARD_PLATFORM),msm8953)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/msm8953/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 else ifeq ($(TARGET_BOARD_PLATFORM),sdm660)
-PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/sdm660/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+    ifeq ($(TARGET_KERNEL_VERSION),4.19)
+        PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/sdm660/powerhint_4.19.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+    else
+        PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/sdm660/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+    endif
 else ifeq ($(TARGET_BOARD_PLATFORM),msmnile)
 PRODUCT_COPY_FILES += vendor/qcom/opensource/power/config/msmnile/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 else ifeq ($(TARGET_BOARD_PLATFORM),kona)

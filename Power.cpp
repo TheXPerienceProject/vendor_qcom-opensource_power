@@ -25,11 +25,16 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Changes from Qualcomm Innovation Center are provided under the following license:
+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause-Clear
  */
 
 #define LOG_TAG "QTI PowerHAL"
 
 #include "Power.h"
+#include "PowerHintSession.h"
 
 #include <android-base/file.h>
 #include <android-base/logging.h>
@@ -118,10 +123,17 @@ ndk::ScopedAStatus Power::isModeSupported(Mode type, bool* _aidl_return) {
 #endif
 
     switch(type){
+        case Mode::EXPENSIVE_RENDERING:
+            if (is_expensive_rendering_supported()) {
+                *_aidl_return = true;
+            } else {
+                *_aidl_return = false;
+            }
+            break;
+
 #ifdef TAP_TO_WAKE_NODE
         case Mode::DOUBLE_TAP_TO_WAKE:
 #endif
-        case Mode::EXPENSIVE_RENDERING:
         case Mode::INTERACTIVE:
         case Mode::SUSTAINED_PERFORMANCE:
         case Mode::FIXED_PERFORMANCE:
@@ -143,6 +155,23 @@ ndk::ScopedAStatus Power::setBoost(Boost type, int32_t durationMs) {
 ndk::ScopedAStatus Power::isBoostSupported(Boost type, bool* _aidl_return) {
     LOG(INFO) << "Power isBoostSupported: " << static_cast<int32_t>(type);
     *_aidl_return = false;
+    return ndk::ScopedAStatus::ok();
+}
+ndk::ScopedAStatus Power::createHintSession(int32_t tgid, int32_t uid, const std::vector<int32_t>& threadIds, int64_t durationNanos,
+                                            std::shared_ptr<IPowerHintSession>* _aidl_return) {
+    LOG(INFO) << "Power createHintSession";
+    if (threadIds.size() == 0) {
+        LOG(ERROR) << "Error: threadIds.size() shouldn't be " << threadIds.size();
+        *_aidl_return = nullptr;
+        return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
+    }
+    *_aidl_return = setPowerHintSession();
+    return ndk::ScopedAStatus::ok();
+}
+
+ndk::ScopedAStatus Power::getHintSessionPreferredRate(int64_t* outNanoseconds) {
+    LOG(INFO) << "Power getHintSessionPreferredRate";
+    *outNanoseconds = getSessionPreferredRate();
     return ndk::ScopedAStatus::ok();
 }
 

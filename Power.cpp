@@ -162,7 +162,7 @@ ndk::ScopedAStatus Power::createHintSession(int32_t tgid, int32_t uid, const std
         *_aidl_return = nullptr;
         return ndk::ScopedAStatus::fromExceptionCode(EX_ILLEGAL_ARGUMENT);
     }
-    *_aidl_return = setPowerHintSession();
+    *_aidl_return = setPowerHintSession(tgid, uid, threadIds);
     return ndk::ScopedAStatus::ok();
 }
 

@@ -8,8 +8,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE_RELATIVE_PATH := hw
 # KEYSTONE(I1132378f14428bf511f3cea4f419e90a6e89f823,b/181709127)
-LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2 libbase libutils libbinder_ndk android.hardware.power-V3-ndk
-
+LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2 libbase libutils libbinder_ndk android.hardware.power-V4-ndk
 LOCAL_HEADER_LIBRARIES += libutils_headers
 LOCAL_HEADER_LIBRARIES += libhardware_headers
 LOCAL_SRC_FILES := power-common.c metadata-parser.c utils.c list.c hint-data.c powerhintparser.c Power.cpp main.cpp PowerHintSession.cpp
@@ -99,4 +98,31 @@ LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
 LOCAL_VENDOR_MODULE := true
 LOCAL_VINTF_FRAGMENTS := power.xml
 include $(BUILD_EXECUTABLE)
+endif
+
+ifeq ($(TARGET_BOARD_PLATFORM), sun)
+include $(CLEAR_VARS)
+
+LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2 libbase libutils libbinder_ndk android.hardware.power-V4-ndk libbinder libclang_rt.ubsan_standalone
+LOCAL_HEADER_LIBRARIES += libutils_headers
+LOCAL_HEADER_LIBRARIES += libhardware_headers
+LOCAL_SRC_FILES := power-common.c metadata-parser.c utils.c list.c hint-data.c powerhintparser.c Power.cpp fuzzer.cpp PowerHintSession.cpp
+LOCAL_C_INCLUDES := external/libxml2/include \
+                    external/icu/icu4c/source/common
+
+ifeq ($(TARGET_USES_INTERACTION_BOOST),true)
+    LOCAL_CFLAGS += -DINTERACTION_BOOST
+endif
+
+LOCAL_MODULE := aidl_fuzzer_power_service
+
+LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
+LOCAL_VENDOR_MODULE := true
+
+LOCAL_STATIC_LIBRARIES += libbinder_random_parcel
+
+include $(BUILD_FUZZ_TEST)
+endif
+
 endif

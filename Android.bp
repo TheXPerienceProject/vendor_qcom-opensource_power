@@ -5,11 +5,11 @@ cc_library_headers {
 }
 
 cc_binary {
-    name: "android.hardware.power-service-qti",
+    name: "android.hardware.power-service",
     defaults: [
         "android.hardware.power-ndk_shared",
     ],
-    init_rc: ["android.hardware.power-service-qti.rc"],
+    init_rc: ["android.hardware.power-service.rc"],
     relative_install_path: "hw",
     vendor: true,
 

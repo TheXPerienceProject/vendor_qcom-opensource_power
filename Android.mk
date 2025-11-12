@@ -1,7 +1,8 @@
 LOCAL_PATH := $(call my-dir)
 
 ifeq ($(call is-vendor-board-platform,QCOM),true)
-
+ifneq ($(filter android.hardware.power-service.lineage-libperfmgr,$(PRODUCT_PACKAGES)),)
+else
 include $(CLEAR_VARS)
 
 LOCAL_MODULE_RELATIVE_PATH := hw
@@ -124,4 +125,5 @@ LOCAL_STATIC_LIBRARIES += libbinder_random_parcel
 include $(BUILD_FUZZ_TEST)
 endif
 
+endif # Lineagepowerhal
 endif
